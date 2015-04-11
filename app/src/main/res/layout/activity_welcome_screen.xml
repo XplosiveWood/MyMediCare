@@ -4,7 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".WelcomeScreen"
-    android:background="#3F51B5">
+    >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,14 +25,25 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         />
-
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/heartshapebutton"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Swipe to get started"
-        android:id="@+id/textView2"
+        android:text="@string/new_user_button"
+        android:id="@+id/NewUser"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="55dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/returning_user_button"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/ExistingUser"/>
 </RelativeLayout>

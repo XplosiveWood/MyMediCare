@@ -15,18 +15,28 @@ import android.widget.TextView;
 
 
 public class WelcomeScreen extends ActionBarActivity {
-
+    MMCDatabase databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
         this.checkAPILevel();
-        Button text = (Button) findViewById(R.id.textView2);
-        text.setOnClickListener(new View.OnClickListener() {
+        databaseHelper = new MMCDatabase(this);
+        databaseHelper.open();
+        Button newUserButton = (Button) findViewById(R.id.NewUser);
+        newUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent inten = new Intent(WelcomeScreen.this, TabTest.class);
-                startActivity(inten);
+                Intent intent = new Intent(WelcomeScreen.this, NewUser.class);
+                startActivity(intent);
+            }
+        });
+        Button returningUserButton = (Button) findViewById(R.id.ExistingUser);
+        returningUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WelcomeScreen.this, ExistingUser.class);
+                startActivity(intent);
             }
         });
     }
@@ -57,6 +67,8 @@ public class WelcomeScreen extends ActionBarActivity {
     private void checkAPILevel(){
         if (android.os.Build.VERSION.SDK_INT < 16){
             this.setFontFamilyICS();
+        } else {
+            this.setFontFamilyICS();
         }
     }
     // Below API Level 16 the XML attribute font-family is not available
@@ -66,7 +78,7 @@ public class WelcomeScreen extends ActionBarActivity {
         Log.d("WelcomeScreen", "changing font styles");
         TextView welcomeScreenTopRow = (TextView) findViewById(R.id.welcomeScreenTopRow);
         TextView welcomeScreenBottomRow = (TextView) findViewById(R.id.welcomeScreenBottomRow);
-        welcomeScreenBottomRow.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Champagne & Limousines.ttf"));
-        welcomeScreenTopRow.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Champagne & Limousines.ttf"));
+        welcomeScreenBottomRow.setTypeface(TypeFaces.get(getApplicationContext(), "Champagne & Limousines"));
+        welcomeScreenTopRow.setTypeface(TypeFaces.get(getApplicationContext(), "Champagne & Limousines"));
     }
 }

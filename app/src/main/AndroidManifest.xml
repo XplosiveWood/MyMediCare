@@ -4,13 +4,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".WelcomeScreen"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,6 +20,42 @@
         <activity
             android:name=".TabTest"
             android:label="@string/title_activity_tab_test" >
+        </activity>
+        <activity
+            android:name=".HeartRate"
+            android:label="@string/title_activity_heart_rate" >
+        </activity>
+        <activity
+            android:name=".NewUser"
+            android:label="@string/title_activity_new_user"
+            android:parentActivityName=".WelcomeScreen" >
+
+            <!--
+            parentActivityName is only available on API level 16+ for android 4.0 using the
+            support libraries the meta-data tag android.support.PARENT_ACTIVITY is used to refer
+            to the Activities parent for navigation.
+            -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.edgehill.mad.mymedicare.WelcomeScreen" />
+        </activity>
+        <activity
+            android:name=".ExistingUser"
+            android:label="@string/title_activity_existing_user"
+            android:parentActivityName=".WelcomeScreen" >
+
+            <!-- Workaround for API level 15 -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.edgehill.mad.mymedicare.WelcomeScreen" />
+        </activity>
+        <activity
+            android:name=".EnterPersonalDetails"
+            android:label="@string/title_activity_enter_personal_details"
+            android:parentActivityName=".NewUser" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.edgehill.mad.mymedicare.NewUser" />
         </activity>
     </application>
 
