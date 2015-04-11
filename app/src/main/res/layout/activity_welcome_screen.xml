@@ -38,12 +38,14 @@
         android:id="@+id/NewUser"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="55dp" />
+        android:layout_marginBottom="55dp"
+        android:minWidth="88dp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/returning_user_button"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:id="@+id/ExistingUser"/>
+        android:id="@+id/ExistingUser"
+        android:minWidth="88dp"/>
 </RelativeLayout>

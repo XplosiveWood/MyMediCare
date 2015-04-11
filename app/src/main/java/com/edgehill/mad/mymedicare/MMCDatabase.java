@@ -2,6 +2,7 @@ package com.edgehill.mad.mymedicare;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -39,7 +40,7 @@ public class MMCDatabase{
     public final Context context;
 
     private DatabaseHelper DBHelper;
-    private SQLiteDatabase db;
+    public SQLiteDatabase db;
 
     public MMCDatabase(Context ctx){
         this.context = ctx;
@@ -61,23 +62,23 @@ public class MMCDatabase{
             try{
                 db.execSQL("CREATE TABLE "+TABLE_PERSONALDETAILS+" ("+KEY_USERID+
                         " INTEGER NOT NULL PRIMARY KEY, "+KEY_FIRSTNAME +" varchar NOT NULL, "
-                        +KEY_LASTNAME +" varchar NOT NULL, "+KEY_DOB +" NOT NULL, "+KEY_HEIGHT+
+                        +KEY_LASTNAME +" varchar NOT NULL, "+KEY_DOB +" long NOT NULL, "+KEY_HEIGHT+
                         " float(2) NOT NULL, "+KEY_PASSWORD+" varchar NOT NULL)");
-                db.execSQL("CREATE TABLE "+TABLE_HEARTRATE+" ("+KEY_HRDATE+" date NOT NULL, "
+                db.execSQL("CREATE TABLE "+TABLE_HEARTRATE+" ("+KEY_HRDATE+" long NOT NULL, "
                         +KEY_HRTIME+" time NOT NULL, "+KEY_HRMEASUREMENT+" int NOT NULL, "+KEY_USERID+
                         " int, FOREIGN KEY("+KEY_USERID+") REFERENCES "+TABLE_PERSONALDETAILS+"("
                         +KEY_USERID+"))");
-                db.execSQL("CREATE TABLE "+TABLE_WEIGHT+" ("+KEY_WEIGHTDATE+" date NOT NULL, "
+                db.execSQL("CREATE TABLE "+TABLE_WEIGHT+" ("+KEY_WEIGHTDATE+" long NOT NULL, "
                         +KEY_WEIGHTTIME+" time NOT NULL, "+KEY_WEIGHT+" float(2) NOT NULL, "
                         +KEY_USERID+" int, FOREIGN KEY("+KEY_USERID+") REFERENCES "
                         +TABLE_PERSONALDETAILS+"("+KEY_USERID+"))");
 
-                db.execSQL("CREATE TABLE "+TABLE_EXERCISE+" ("+KEY_EXERDATE+" date NOT NULL, "
+                db.execSQL("CREATE TABLE "+TABLE_EXERCISE+" ("+KEY_EXERDATE+" long NOT NULL, "
                         +KEY_EXERTIME+" time NOT NULL, "+KEY_EXDONE+" varchar, "+KEY_USERID+" int, " +
                         "FOREIGN KEY("+KEY_USERID+") REFERENCES "+TABLE_PERSONALDETAILS+"("
                         +KEY_USERID+"))");
 
-                db.execSQL("CREATE TABLE "+TABLE_SLEEP+"("+KEY_SLEEPDATE+" date NOT NULL, "
+                db.execSQL("CREATE TABLE "+TABLE_SLEEP+"("+KEY_SLEEPDATE+" long NOT NULL, "
                         +KEY_TIMESLEEP+" time NOT NULL, "+KEY_TIMEAWAKE+" time NOT NULL, "
                         +KEY_USERID+", FOREIGN KEY("+KEY_USERID+") REFERENCES "
                         +TABLE_PERSONALDETAILS+"("+KEY_USERID+"))");
@@ -101,7 +102,7 @@ public class MMCDatabase{
         DBHelper.close();
     }
 
-    public long insertNewPerson(String name, String lastname, int dob, float height, String password){
+    public long insertNewPerson(String name, String lastname, long dob, float height, String password){
         ContentValues personValues = new ContentValues();
         personValues.putNull(KEY_USERID);
         personValues.put(KEY_FIRSTNAME, name);
@@ -112,7 +113,7 @@ public class MMCDatabase{
         return db.insert(TABLE_PERSONALDETAILS, null, personValues);
     }
 
-    public long insertHeartRate(int date, int time, int HRMeasurement, int userid){
+    public long insertHeartRate(long date, int time, int HRMeasurement, int userid){
         ContentValues heartRateValues = new ContentValues();
         heartRateValues.put(KEY_HRDATE, date);
         heartRateValues.put(KEY_HRTIME, time);
@@ -121,7 +122,7 @@ public class MMCDatabase{
         return db.insert(TABLE_HEARTRATE, null, heartRateValues);
     }
 
-    public long insertWeight(int date, int time, float weight, int userid){
+    public long insertWeight(long date, int time, float weight, int userid){
         ContentValues weightValues = new ContentValues();
         weightValues.put(KEY_WEIGHTDATE, date);
         weightValues.put(KEY_WEIGHTTIME, time);
@@ -130,7 +131,7 @@ public class MMCDatabase{
         return db.insert(TABLE_WEIGHT, null, weightValues);
     }
 
-    public long insertExercise(int date, int time, String exerciseDone, int caloriesBurned, int userid){
+    public long insertExercise(long date, int time, String exerciseDone, int caloriesBurned, int userid){
         ContentValues exerciseValues = new ContentValues();
         exerciseValues.put(KEY_EXERDATE, date);
         exerciseValues.put(KEY_EXERTIME, time);
@@ -140,12 +141,28 @@ public class MMCDatabase{
         return db.insert(TABLE_EXERCISE, null, exerciseValues);
     }
 
-    public long insertSleep(int date, int timesleep, int timeawake, int userid){
+    public long insertSleep(long date, int timesleep, int timeawake, int userid){
         ContentValues sleepValues = new ContentValues();
         sleepValues.put(KEY_SLEEPDATE, date);
         sleepValues.put(KEY_TIMESLEEP, timesleep);
         sleepValues.put(KEY_TIMEAWAKE, timeawake);
         sleepValues.put(KEY_USERID, userid);
         return db.insert(TABLE_PERSONALDETAILS, null, sleepValues);
+    }
+
+    public Boolean checkIfUserExists(String name, String surname){
+        Cursor cur = db.query(TABLE_PERSONALDETAILS, new String[] {KEY_USERID},KEY_FIRSTNAME + " like '" + name + "' AND " +KEY_LASTNAME+ " like '" +surname+"'", null, null, null, null);
+        if (cur.moveToFirst()){
+            cur.close();
+            return true;
+        } else {
+            cur.close();
+            return false;
+        }
+    }
+
+    public Cursor checkPassword(String name, String surname, String pass){
+        Cursor cur = db.query(TABLE_PERSONALDETAILS, new String[] {KEY_USERID},KEY_FIRSTNAME + " like '" + name + "' AND " +KEY_LASTNAME+ " like '" +surname+"' AND " +KEY_PASSWORD+" like '"+pass+"'", null, null, null, null);
+        return cur;
     }
 }

@@ -16,4 +16,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_existing_user">ExistingUser</string>
     <string name="title_activity_enter_personal_details">EnterPersonalDetails</string>
+    <string name="title_activity_main_screen">MainScreen</string>
 </resources>

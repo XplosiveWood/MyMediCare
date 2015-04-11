@@ -6,18 +6,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class EnterPersonalDetails extends ActionBarActivity {
+public class MainScreen extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_personal_details);
+        setContentView(R.layout.activity_main_screen);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_enter_personal_details, menu);
+        getMenuInflater().inflate(R.menu.menu_main_screen, menu);
         return true;
     }
 
