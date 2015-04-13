@@ -17,4 +17,9 @@
     <string name="title_activity_existing_user">ExistingUser</string>
     <string name="title_activity_enter_personal_details">EnterPersonalDetails</string>
     <string name="title_activity_main_screen">MainScreen</string>
+
+    <string name="new_user_main_screen_title">Welcome </string>
+    <string name="existing_user_main_screen_title">Welcome back </string>
+    <string name="new_user_main_screen_body">To get started with my MyMediCare use the cards below to take you to each section of the application.</string>
+    <string name="existing_user_main_screen_body"></string>
 </resources>

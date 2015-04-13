@@ -1,6 +1,8 @@
 package com.edgehill.mad.mymedicare;
 
+import android.app.Application;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -38,7 +40,10 @@ public class NewUser extends ActionBarActivity {
                     if (checkDBIfUserExists(name, surname)) {
                     } else {
                         if (addUserToDatabase(name, surname, dateOfBirth, height, pass)) {
+                            getCursorForCurrentUser(name,surname, pass);
+                            MainScreen screen = new MainScreen();
                             Intent intent = new Intent(NewUser.this, MainScreen.class);
+
                             startActivity(intent);
                             finish();
                         } else {
@@ -104,6 +109,13 @@ public class NewUser extends ActionBarActivity {
         } else {
             return true;
         }
+    }
+
+    public void getCursorForCurrentUser(String name, String lastname, String pass){
+        Cursor returnedCursor = database.checkPassword(name, lastname, pass);
+        returnedCursor.moveToFirst();
+        ApplicationController ac = (ApplicationController)getApplicationContext();
+        ac.setSharedCursor(returnedCursor);
     }
 
     public void showErrorSnackbar(String error) {

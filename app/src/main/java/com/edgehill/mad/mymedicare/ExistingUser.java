@@ -8,9 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
@@ -18,7 +16,6 @@ import com.nispok.snackbar.SnackbarManager;
 
 public class ExistingUser extends ActionBarActivity {
     MMCDatabase database;
-    Cursor cur;
     String name, surname, pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,17 +74,14 @@ public class ExistingUser extends ActionBarActivity {
         return true;
     }
     public boolean checkDBIfUserExists(String name, String lastname){
-        if(database.checkIfUserExists(name, lastname)){
-            return true;
-        } else {
-            return false;
-        }
+        return database.checkIfUserExists(name, lastname);
     }
 
     public boolean checkDBPassword(String name, String lastname, String pass){
         Cursor returnedCursor = database.checkPassword(name, lastname, pass);
         if (returnedCursor.moveToFirst()){
-            cur = returnedCursor;
+            ApplicationController ac = (ApplicationController)getApplicationContext();
+            ac.setSharedCursor(returnedCursor);
             return true;
         } else {
             returnedCursor.close();
