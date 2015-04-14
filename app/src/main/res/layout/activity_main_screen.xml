@@ -1,50 +1,150 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="com.edgehill.mad.mymedicare.MainScreen">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview_welcome"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/textview_heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_user_main_screen_title"
-                android:textSize="24sp"
-                android:textColor="@color/primary"
-                android:paddingLeft="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="24sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_below="@+id/textview_heading"
-                android:text="@string/new_user_main_screen_body"/>
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
+            android:id="@+id/cardview_welcome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textview_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_user_main_screen_title"
+                    android:textSize="24sp"
+                    android:textColor="@color/primary"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="24sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_below="@+id/textview_heading"
+                    android:text="@string/new_user_main_screen_body" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview_heartrate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_below="@+id/cardview_welcome">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/image_view_heartrate"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/primary"/>
             <TextView
+                android:id="@+id/text_view_heartrate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hello!"/>
+                android:layout_below="@+id/image_view_heartrate"
+                android:layout_margin="16dp"
+                android:textSize="24sp"
+                android:textColor="@color/primary_text"
+                android:text="Heart Rate" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_view_heartrate"
+                android:text="ENTER DATA"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginLeft="16dp"
+                android:padding="2dp"/>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview_blood_pressure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_below="@+id/cardview_heartrate">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/image_view_blood_pressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/primary"/>
+                <TextView
+                    android:id="@+id/text_view_blood_pressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/image_view_blood_pressure"
+                    android:layout_margin="16dp"
+                    android:textSize="24sp"
+                    android:textColor="@color/primary_text"
+                    android:text="Blood Pressure" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_view_blood_pressure"
+                    android:text="ENTER DATA"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginLeft="16dp"
+                    android:padding="2dp"/>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_below="@+id/cardview_blood_pressure">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/image_view_temperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/primary"/>
+                <TextView
+                    android:id="@+id/text_view_temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/image_view_temperature"
+                    android:layout_margin="16dp"
+                    android:textSize="24sp"
+                    android:textColor="@color/primary_text"
+                    android:text="Temperature" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_view_temperature"
+                    android:text="ENTER DATA"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginLeft="16dp"
+                    android:padding="2dp"/>
+            </RelativeLayout>
         </android.support.v7.widget.CardView>
     </RelativeLayout>
 </ScrollView>

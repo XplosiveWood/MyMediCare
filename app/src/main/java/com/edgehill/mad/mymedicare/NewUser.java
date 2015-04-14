@@ -23,6 +23,8 @@ public class NewUser extends ActionBarActivity {
     private String surname;
     private long dateOfBirth;
     private float height;
+    private String gpName;
+    private long gpTelephone;
     private String pass;
 
     @Override
@@ -39,7 +41,7 @@ public class NewUser extends ActionBarActivity {
                 if (checkUserEntry()) {
                     if (checkDBIfUserExists(name, surname)) {
                     } else {
-                        if (addUserToDatabase(name, surname, dateOfBirth, height, pass)) {
+                        if (addUserToDatabase(name, surname, dateOfBirth, height, gpName, gpTelephone, pass)) {
                             getCursorForCurrentUser(name,surname, pass);
                             MainScreen screen = new MainScreen();
                             Intent intent = new Intent(NewUser.this, MainScreen.class);
@@ -102,8 +104,8 @@ public class NewUser extends ActionBarActivity {
         }
     }
 
-    public boolean addUserToDatabase(String name, String lastname, long dateOfBirth, float height, String password) {
-        long rowID = database.insertNewPerson(name, lastname, dateOfBirth, height, password);
+    public boolean addUserToDatabase(String name, String lastname, long dateOfBirth, float height, String gpName, long gpTelephone, String password) {
+        long rowID = database.insertNewPerson(name, lastname, dateOfBirth, height, gpName, gpTelephone, password);
         if (rowID == -1) {
             return false;
         } else {
@@ -152,6 +154,8 @@ public class NewUser extends ActionBarActivity {
         DatePicker dob = (DatePicker) findViewById(R.id.datepicker_dob);
         EditText editHeight = (EditText) findViewById(R.id.edit_text_height);
         EditText editPass = (EditText) findViewById(R.id.edit_text_password);
+        EditText editGPName = (EditText) findViewById(R.id.edit_text_gp_name);
+        EditText editGPTelephone = (EditText) findViewById(R.id.edit_text_gp_telephone);
 
         int day = dob.getDayOfMonth();
         int month = dob.getMonth();
@@ -161,6 +165,8 @@ public class NewUser extends ActionBarActivity {
         name = editName.getText().toString();
         surname = editSurname.getText().toString();
         pass = editPass.getText().toString();
+        gpName = editGPName.getText().toString();
+        String strGPTelephone = editGPTelephone.toString();
         String strHeight = editHeight.getText().toString();
 
         if (name.isEmpty()) {
@@ -177,7 +183,17 @@ public class NewUser extends ActionBarActivity {
         } else {
             height = Float.valueOf(strHeight);
         }
+        if (gpName.isEmpty()) {
+            showErrorSnackbar("Please enter your GP name.");
+            return false;
+        }
 
+        if (strGPTelephone.isEmpty()) {
+            showErrorSnackbar("Please enter your GP telephone.");
+            return false;
+        } else {
+            gpTelephone = Long.valueOf(editGPTelephone.getText().toString());
+        }
         if (pass.isEmpty()) {
             showErrorSnackbar("Please enter your password.");
             return false;
