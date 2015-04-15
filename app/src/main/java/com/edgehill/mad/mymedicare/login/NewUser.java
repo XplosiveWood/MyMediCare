@@ -1,6 +1,5 @@
-package com.edgehill.mad.mymedicare;
+package com.edgehill.mad.mymedicare.login;
 
-import android.app.Application;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
@@ -11,8 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import com.edgehill.mad.mymedicare.ApplicationController;
+import com.edgehill.mad.mymedicare.MMCDatabase;
+import com.edgehill.mad.mymedicare.MainScreen;
+import com.edgehill.mad.mymedicare.R;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
@@ -45,7 +47,7 @@ public class NewUser extends ActionBarActivity {
                             getCursorForCurrentUser(name,surname, pass);
                             MainScreen screen = new MainScreen();
                             Intent intent = new Intent(NewUser.this, MainScreen.class);
-
+                            intent.putExtra("firstTimeUser", true);
                             startActivity(intent);
                             finish();
                         } else {

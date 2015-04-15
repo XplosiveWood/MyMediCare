@@ -4,6 +4,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 
 public class MainScreen extends ActionBarActivity {
@@ -12,6 +16,21 @@ public class MainScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+        Bundle extras = getIntent().getExtras();
+        boolean firstTimeUser = extras.getBoolean("firstTimeUser");
+        if(firstTimeUser){
+            // If they are a first time user
+            TextView view = (TextView) findViewById(R.id.text_view_heading);
+            view.setText(getResources().getString(R.string.new_user_main_screen_title));
+            view = (TextView) findViewById(R.id.text_view_heading_description);
+            view.setText(getResources().getString(R.string.new_user_main_screen_body));
+        } else {
+            // If they are a returning user
+            TextView view = (TextView) findViewById(R.id.text_view_heading);
+            view.setText(getResources().getString(R.string.existing_user_main_screen_title));
+            view = (TextView) findViewById(R.id.text_view_heading_description);
+            view.setText(getResources().getString(R.string.existing_user_main_screen_body));
+        }
     }
 
     @Override

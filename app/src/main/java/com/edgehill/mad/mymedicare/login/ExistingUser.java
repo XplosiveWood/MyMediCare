@@ -1,4 +1,4 @@
-package com.edgehill.mad.mymedicare;
+package com.edgehill.mad.mymedicare.login;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.edgehill.mad.mymedicare.ApplicationController;
+import com.edgehill.mad.mymedicare.MMCDatabase;
+import com.edgehill.mad.mymedicare.MainScreen;
+import com.edgehill.mad.mymedicare.R;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
@@ -32,6 +36,7 @@ public class ExistingUser extends ActionBarActivity {
                     if (checkDBIfUserExists(name, surname)) {
                         if (checkDBPassword(name, surname, pass)) {
                             Intent intent = new Intent(ExistingUser.this, MainScreen.class);
+                            intent.putExtra("firstTimeUser", false);
                             startActivity(intent);
                             finish();
                         } else {

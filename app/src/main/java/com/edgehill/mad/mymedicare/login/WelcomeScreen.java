@@ -1,21 +1,16 @@
-package com.edgehill.mad.mymedicare;
+package com.edgehill.mad.mymedicare.login;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.webkit.ConsoleMessage;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.edgehill.mad.mymedicare.MMCDatabase;
+import com.edgehill.mad.mymedicare.R;
+import com.edgehill.mad.mymedicare.TypeFaces;
 
 
 public class WelcomeScreen extends Activity {

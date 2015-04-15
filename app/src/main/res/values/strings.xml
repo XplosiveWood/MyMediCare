@@ -6,21 +6,21 @@
     <!--Welcome Screen-->
     <string name="new_user_button">New User</string>
     <string name="returning_user_button">Returning User</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <!--Activity Titles-->
     <string name="title_activity_heart_rate">HeartRate</string>
     <string name="title_activity_new_user">NewUser</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_existing_user">ExistingUser</string>
     <string name="title_activity_enter_personal_details">EnterPersonalDetails</string>
     <string name="title_activity_main_screen">MainScreen</string>
-
+    <string name="title_activity_app_settings">AppSettings</string>
+    <!--Main Screen-->
     <string name="new_user_main_screen_title">Welcome </string>
     <string name="existing_user_main_screen_title">Welcome back </string>
     <string name="new_user_main_screen_body">To get started with my MyMediCare use the cards below to take you to each section of the application.</string>
-    <string name="existing_user_main_screen_body"></string>
-    <string name="title_activity_app_settings">AppSettings</string>
+    <string name="existing_user_main_screen_body">To add more data tap the cards below, health status is displayed at the top of each card. Green for health, orange to take measures an red for an emergency.</string>
+    <string name="main_screen_no_data">No data entered</string>
+    <string name="main_screen_healthy">Normal Range</string>
+    <string name="main_screen_measures">Take measures</string>
+    <string name="main_screen_emergency">Emergency</string>
+
 </resources>
