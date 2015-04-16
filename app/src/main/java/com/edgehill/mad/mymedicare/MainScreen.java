@@ -1,5 +1,6 @@
 package com.edgehill.mad.mymedicare;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,8 +17,19 @@ public class MainScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        Bundle extras = getIntent().getExtras();
-        boolean firstTimeUser = extras.getBoolean("firstTimeUser");
+        Bundle extras;
+        boolean firstTimeUser;
+        if (savedInstanceState == null) {
+            extras = getIntent().getExtras();
+            if(extras == null) {
+                firstTimeUser = false;
+            } else {
+                firstTimeUser = extras.getBoolean("firstTimeUser");
+            }
+        } else {
+            firstTimeUser= (Boolean) savedInstanceState.getSerializable("firstTimeUser");
+        }
+
         if(firstTimeUser){
             // If they are a first time user
             TextView view = (TextView) findViewById(R.id.text_view_heading);
@@ -49,9 +61,17 @@ public class MainScreen extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainScreen.this, AppSettings.class);
+            startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop() {
+        finish();
+        super.onStop();
     }
 }

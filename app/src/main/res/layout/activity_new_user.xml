@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/new_user_title"
-        android:text="MyMediCare the medical companion you can take with you! To get started enter your details below, no information is shared from your device or read by us."
+        android:text="@string/new_user_description"
         android:layout_marginTop="5dp"
         style="@style/Base.TextAppearance.AppCompat.Body1" />
 
@@ -44,7 +44,7 @@
         app:met_clearButton="true" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edit_text_surname"
+        android:id="@+id/edit_text_surname_settings"
         android:layout_width="@dimen/material_edittext"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -57,12 +57,12 @@
         android:inputType="textCapSentences"
         app:met_clearButton="true"/>
     <TextView
-        android:id="@+id/text_view_dob"
+        android:id="@+id/text_view_dob_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/edit_text_surname"
-        android:layout_alignLeft="@id/edit_text_surname"
-        android:layout_below="@id/edit_text_surname"
+        android:layout_alignStart="@+id/edit_text_surname_settings"
+        android:layout_alignLeft="@id/edit_text_surname_settings"
+        android:layout_below="@id/edit_text_surname_settings"
         android:textSize="@dimen/floating_label_text_size"
         android:text="Date of birth"
         android:alpha= "0.26"
@@ -70,12 +70,12 @@
         />
     <!--Strange padding problem on DatePicker, only shows up on high PPI devices-->
     <DatePicker
-        android:id="@+id/datepicker_dob"
+        android:id="@+id/datepicker_dob_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/text_view_dob"
+        android:layout_below="@+id/text_view_dob_settings"
         android:inputType="date"
         android:datePickerMode="spinner"
         android:calendarViewShown="false"
@@ -84,24 +84,24 @@
         />
 
     <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edit_text_height"
+        android:id="@+id/edit_text_height_settings"
         android:layout_width="@dimen/material_edittext"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/datepicker_dob"
+        android:layout_below="@+id/datepicker_dob_settings"
         app:met_floatingLabel="normal"
         app:met_floatingLabelText="Height (Metres)"
         android:hint="Height (Metres)"
         android:inputType="numberDecimal"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edit_text_gp_name"
+        android:id="@+id/edit_text_gp_name_settings"
         android:layout_width="@dimen/material_edittext"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/edit_text_height"
+        android:layout_below="@+id/edit_text_height_settings"
         app:met_floatingLabel="normal"
         app:met_floatingLabelText="GP Name"
         android:hint="GP Name"
@@ -110,12 +110,12 @@
         app:met_clearButton="true"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edit_text_gp_telephone"
+        android:id="@+id/edit_text_gp_telephone_settings"
         android:layout_width="@dimen/material_edittext"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/edit_text_gp_name"
+        android:layout_below="@+id/edit_text_gp_name_settings"
         app:met_floatingLabel="normal"
         app:met_floatingLabelText="GP Telephone"
         android:hint="GP Telephone"
@@ -123,12 +123,12 @@
         app:met_maxCharacters="11"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edit_text_password"
+        android:id="@+id/edit_text_password_settings"
         android:layout_width="@dimen/material_edittext"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/edit_text_gp_telephone"
+        android:layout_below="@+id/edit_text_gp_telephone_settings"
         app:met_floatingLabel="normal"
         app:met_floatingLabelText="Password"
         android:hint="Password"
@@ -136,12 +136,12 @@
         android:inputType="textPassword"
         app:met_maxCharacters="15"/>
     <Button
-        android:id="@+id/button_register"
+        android:id="@+id/button_delete_user_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register >"
-        android:layout_below="@+id/edit_text_password"
-        android:layout_alignEnd="@+id/edit_text_password"
-        android:layout_alignRight="@+id/edit_text_password"/>
+        android:layout_below="@+id/edit_text_password_settings"
+        android:layout_alignEnd="@+id/edit_text_password_settings"
+        android:layout_alignRight="@+id/edit_text_password_settings"/>
 </RelativeLayout>
 </ScrollView>

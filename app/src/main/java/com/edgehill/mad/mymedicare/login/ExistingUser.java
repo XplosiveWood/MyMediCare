@@ -105,8 +105,8 @@ public class ExistingUser extends ActionBarActivity {
 
     private boolean checkUserInput(){
         EditText editName = (EditText) findViewById(R.id.edit_text_name);
-        EditText editSurname = (EditText) findViewById(R.id.edit_text_surname);
-        EditText editPass = (EditText) findViewById(R.id.edit_text_password);
+        EditText editSurname = (EditText) findViewById(R.id.edit_text_surname_settings);
+        EditText editPass = (EditText) findViewById(R.id.edit_text_password_settings);
         name = editName.getText().toString();
         surname = editSurname.getText().toString();
         pass = editPass.getText().toString();

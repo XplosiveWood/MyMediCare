@@ -36,7 +36,7 @@ public class NewUser extends ActionBarActivity {
         setContentView(R.layout.activity_new_user);
         database = new MMCDatabase(this);
         database.open();
-        Button registerButton = (Button) findViewById(R.id.button_register);
+        Button registerButton = (Button) findViewById(R.id.button_delete_user_settings);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,12 +152,12 @@ public class NewUser extends ActionBarActivity {
 
     public boolean checkUserEntry() {
         EditText editName = (EditText) findViewById(R.id.edit_text_name);
-        EditText editSurname = (EditText) findViewById(R.id.edit_text_surname);
-        DatePicker dob = (DatePicker) findViewById(R.id.datepicker_dob);
-        EditText editHeight = (EditText) findViewById(R.id.edit_text_height);
-        EditText editPass = (EditText) findViewById(R.id.edit_text_password);
-        EditText editGPName = (EditText) findViewById(R.id.edit_text_gp_name);
-        EditText editGPTelephone = (EditText) findViewById(R.id.edit_text_gp_telephone);
+        EditText editSurname = (EditText) findViewById(R.id.edit_text_surname_settings);
+        DatePicker dob = (DatePicker) findViewById(R.id.datepicker_dob_settings);
+        EditText editHeight = (EditText) findViewById(R.id.edit_text_height_settings);
+        EditText editPass = (EditText) findViewById(R.id.edit_text_password_settings);
+        EditText editGPName = (EditText) findViewById(R.id.edit_text_gp_name_settings);
+        EditText editGPTelephone = (EditText) findViewById(R.id.edit_text_gp_telephone_settings);
 
         int day = dob.getDayOfMonth();
         int month = dob.getMonth();

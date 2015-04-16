@@ -13,6 +13,10 @@
     <string name="title_activity_enter_personal_details">EnterPersonalDetails</string>
     <string name="title_activity_main_screen">MainScreen</string>
     <string name="title_activity_app_settings">AppSettings</string>
+
+    <!--Personal Data Screens-->
+    <string name="new_user_description">MyMediCare the medical companion you can take with you! To get started enter your details below, no information is shared from your device or read by us.</string>
+    <string name="app_settings_description">To change your personal details simply change the values below and tap the save button. To delete your user account tap the delete user button.</string>
     <!--Main Screen-->
     <string name="new_user_main_screen_title">Welcome </string>
     <string name="existing_user_main_screen_title">Welcome back </string>
