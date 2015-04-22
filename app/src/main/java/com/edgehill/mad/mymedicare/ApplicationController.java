@@ -4,7 +4,9 @@ import android.app.Application;
 import android.database.Cursor;
 
 /**
- * Created by scottwhite on 12/04/15.
+ * This class can be accessed throughout the application using the getApplication method and is
+ * useful for storing information that has to be accessed over multiple screens. In this case it is
+ * being used to store a cursor pointing to the database row of the current user.
  */
 public class ApplicationController extends Application {
     Cursor sharedCursor; // this cursor can be shared between different Activities

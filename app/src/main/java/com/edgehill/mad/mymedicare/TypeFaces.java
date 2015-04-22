@@ -6,7 +6,8 @@ import android.graphics.Typeface;
 import java.util.Hashtable;
 
 /**
- * Created by Scott on 10/04/2015.
+ * Convenience class used to return back fonts that aren't part of the local font library of the
+ * device.
  */
 public class TypeFaces{
 

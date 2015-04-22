@@ -1,4 +1,4 @@
-package com.edgehill.mad.mymedicare;
+package com.edgehill.mad.mymedicare.dataentry;
 
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
@@ -10,27 +10,39 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.edgehill.mad.mymedicare.ApplicationController;
+import com.edgehill.mad.mymedicare.Format;
+import com.edgehill.mad.mymedicare.MMCDatabase;
+import com.edgehill.mad.mymedicare.R;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
 import java.util.Calendar;
 
+/**
+ * This activity class is loaded from the main screen of the application if the user pressed the
+ * enter data button for blood pressure.
+ */
 
 public class BloodPressure extends ActionBarActivity {
+    // Class fields to store the cursor and database references
     private MMCDatabase database;
     private Cursor cur;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blood_pressure);
+        // Set the date picker to todays date
         DatePicker datepick = (DatePicker) findViewById(R.id.datepicker_bloodpressure);
         Calendar cal = Calendar.getInstance();
         int year=cal.get(Calendar.YEAR);
         int month=cal.get(Calendar.MONTH);
         int day=cal.get(Calendar.DAY_OF_MONTH);
         datepick.updateDate(year, month, day);
+        // Init the database and open it
         database = new MMCDatabase(this);
         database.open();
+        // Get the shared cursor
         ApplicationController ac = (ApplicationController)getApplicationContext();
         cur = ac.getSharedCursor();
     }
@@ -57,6 +69,17 @@ public class BloodPressure extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setVisible(false);
+        return true;
+    }
+
+    /**
+     * Checks if the user has entered data into all fields
+     * @param v An object reference to the view that called it
+     */
     public void checkUserEntry(View v){
         EditText editSystolic = (EditText) findViewById(R.id.edit_text_systolic);
         EditText editDiastolic = (EditText) findViewById(R.id.edit_text_diastolic);
@@ -83,6 +106,11 @@ public class BloodPressure extends ActionBarActivity {
         }
     }
 
+    /**
+     * A method used to convert and save the data the user enters.
+     * @param systolic The systolic BP of the user
+     * @param diastolic The diastolic BP of the user
+     */
     public void saveBloodPressureData(int systolic, int diastolic){
         int userID = cur.getInt(cur.getColumnIndex(MMCDatabase.KEY_USERID));
         DatePicker date = (DatePicker) findViewById(R.id.datepicker_bloodpressure);

@@ -1,7 +1,8 @@
 package com.edgehill.mad.mymedicare;
 
 /**
- * Created by scottwhite on 21/04/15.
+ * Convenience class used to format three strings returned by the date picker into a string object
+ * that is suitable for entering into the database.
  */
 public final class Format {
     private Format(){};

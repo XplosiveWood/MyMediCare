@@ -22,24 +22,31 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-//TODO Design XML for this activity and also develop the class
+/**
+ * This activity class is shown if the user taps the settings menu on the action bar, it contains
+ * all the same fields as the new user screen and allows users to change their information and also
+ * delete their profile from the application.
+ */
 public class AppSettings extends ActionBarActivity {
-    MMCDatabase database;
-    Cursor cur;
-    String name;
-    String surname;
-    int dateOfBirth;
-    float height;
-    String gpName;
-    long gpTelephone;
-    String pass;
-    String year, month, day;
+    // Class fields used to store references to the database and also the users details
+    private MMCDatabase database;
+    private Cursor cur;
+    private String name;
+    private String surname;
+    private int dateOfBirth;
+    private float height;
+    private String gpName;
+    private long gpTelephone;
+    private String pass;
+    private String year, month, day;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_settings);
+        // Init the database reference and open the database
         database = new MMCDatabase(this);
         database.open();
+        // Get the shared cursor for the current user
         ApplicationController ac = (ApplicationController)getApplicationContext();
         cur = ac.getSharedCursor();
         getUserDetails();
@@ -68,6 +75,11 @@ public class AppSettings extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This method retrieves all the information about the user from the cursor object, the cursor
+     * object uses the SQLite database as a backing store. However querying a database takes up CPU
+     * time and is not necessary if you keep hold of the cursor object returned upon a query.
+     */
     private void getUserDetails(){
         cur.moveToFirst();
         name = cur.getString(cur.getColumnIndex(MMCDatabase.KEY_FIRSTNAME));
@@ -84,6 +96,9 @@ public class AppSettings extends ActionBarActivity {
         day = dobEdited[6] +""+ dobEdited[7];
     }
 
+    /**
+     * Set the fields on the GUI to the details restored from the cursor
+     */
     private void setEditTextFields() {
         EditText placeholder = (EditText) findViewById(R.id.edit_text_name_settings);
         DatePicker picker = (DatePicker) findViewById(R.id.datepicker_dob_settings);
@@ -101,7 +116,8 @@ public class AppSettings extends ActionBarActivity {
         placeholder.setText(pass);
     }
 
-    public static Integer[] getDigits(int num) {
+
+    private static Integer[] getDigits(int num) {
         List<Integer> digits = new ArrayList<Integer>();
         collectDigits(num, digits);
         return digits.toArray(new Integer[]{});
@@ -114,6 +130,11 @@ public class AppSettings extends ActionBarActivity {
         digits.add(num % 10);
     }
 
+    /**
+     * This method is called when the user taps the DELETE PROFILE button, it first prompts the user
+     * with an alert dialog asking if they are sure they wish delete.
+     * @param v An object reference to the view that called it
+     */
     public void deleteUser(View v) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Profile Deletion");
@@ -142,6 +163,10 @@ public class AppSettings extends ActionBarActivity {
         alert.show();
     }
 
+    /**
+     * This method is called to update the database with the new data the user has entered.
+     * @param v An object reference to the view that called it
+     */
     public void alterUser(View v){
         if(checkUserEntry()){
             if(database.updatePerson(name, surname, new Long(dateOfBirth), height, gpName, gpTelephone, pass, cur) == 1){
@@ -152,7 +177,12 @@ public class AppSettings extends ActionBarActivity {
         }
     }
 
-    public boolean checkUserEntry() {
+    /**
+     * This method checks that all the fields have information entered in them, if they don't then
+     * it alerts the user.
+     * @return If all the fields are filled return true
+     */
+    private boolean checkUserEntry() {
         EditText editName = (EditText) findViewById(R.id.edit_text_name_settings);
         EditText editSurname = (EditText) findViewById(R.id.edit_text_surname_settings);
         DatePicker dob = (DatePicker) findViewById(R.id.datepicker_dob_settings);
@@ -205,7 +235,11 @@ public class AppSettings extends ActionBarActivity {
         return true;
     }
 
-    public void showErrorSnackbar(String error) {
+    /**
+     * Convenience method used to show the user snackbars
+     * @param error A string containing the error message to be displayed to the user.
+     */
+    private void showErrorSnackbar(String error) {
         SnackbarManager.show(
                 Snackbar.with(getApplicationContext()) // context
                         .text(error) // text to be displayed

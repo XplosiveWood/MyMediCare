@@ -1,4 +1,4 @@
-package com.edgehill.mad.mymedicare;
+package com.edgehill.mad.mymedicare.dataentry;
 
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
@@ -10,27 +10,38 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.edgehill.mad.mymedicare.ApplicationController;
+import com.edgehill.mad.mymedicare.Format;
+import com.edgehill.mad.mymedicare.MMCDatabase;
+import com.edgehill.mad.mymedicare.R;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
 import java.util.Calendar;
 
-
+/**
+ * This activity class is loaded from the main screen of the application if the user pressed the
+ * enter data button for temperature.
+ */
 public class Temperature extends ActionBarActivity {
+    // Class fields used to hold reference to the database and cursor
     private MMCDatabase database;
     private Cursor cur;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temperature);
+        // Set the date picker to todays date
         DatePicker datepick = (DatePicker) findViewById(R.id.datepicker_temperature);
         Calendar cal = Calendar.getInstance();
         int year=cal.get(Calendar.YEAR);
         int month=cal.get(Calendar.MONTH);
         int day=cal.get(Calendar.DAY_OF_MONTH);
         datepick.updateDate(year, month, day);
+        // Init and open the database
         database = new MMCDatabase(this);
         database.open();
+        // Get the shared cursor
         ApplicationController ac = (ApplicationController)getApplicationContext();
         cur = ac.getSharedCursor();
     }
@@ -57,6 +68,17 @@ public class Temperature extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setVisible(false);
+        return true;
+    }
+
+    /**
+     * Check the user has entered information in all the required fields
+     * @param v An object reference to the view that called it
+     */
     public void checkUserEntry(View v){
         EditText editTemperature = (EditText) findViewById(R.id.edit_text_temperature);
         String strTemperature = editTemperature.getText().toString();
@@ -72,6 +94,11 @@ public class Temperature extends ActionBarActivity {
             saveTemperatureData(floatTemperature);
         }
     }
+
+    /**
+     * Method used to convert and store the temperature date into the database
+     * @param temperature The temperature measurement of the user
+     */
     public void saveTemperatureData(float temperature){
         int userID = cur.getInt(cur.getColumnIndex(MMCDatabase.KEY_USERID));
         DatePicker date = (DatePicker) findViewById(R.id.datepicker_temperature);

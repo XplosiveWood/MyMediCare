@@ -3,41 +3,53 @@ package com.edgehill.mad.mymedicare;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.edgehill.mad.mymedicare.dataentry.BloodPressure;
+import com.edgehill.mad.mymedicare.dataentry.HeartRate;
+import com.edgehill.mad.mymedicare.dataentry.Temperature;
 
-
+/**
+ * This activity class is loaded once the user logs into the application, it retrieves all the
+ * information about heart rate, temperature etc and then display information about those readings
+ */
 public class MainScreen extends ActionBarActivity {
+    // Class fields to hold the cursor object and the database.
     private Cursor cur;
     private MMCDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+        // Bundle variable
         Bundle extras;
         boolean firstTimeUser;
+        // Init database and open
         database = new MMCDatabase(this);
         database.open();
+        // Get the shared cursor
         ApplicationController ac = (ApplicationController)getApplicationContext();
         cur = ac.getSharedCursor();
+        // If this activity wasnt loaded with a shared instance state
         if (savedInstanceState == null) {
+            // Get the extras passed by the intent
             extras = getIntent().getExtras();
             if(extras == null) {
+                // If the extras was null then set the boolean to false (Defaults)
                 firstTimeUser = false;
             } else {
+                // Else set the boolean to the value stored in the extras
                 firstTimeUser = extras.getBoolean("firstTimeUser");
             }
         } else {
+            // Get the value store inside the saved instance state
             firstTimeUser= (Boolean) savedInstanceState.getSerializable("firstTimeUser");
         }
 
@@ -66,6 +78,9 @@ public class MainScreen extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * If this activity is ever resumed then call the three data retrieval methods again.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -91,6 +106,12 @@ public class MainScreen extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This method gets the heart rate information stored in the database and then checks the values
+     * On completion is changes the imageview on the main screen to be one of three colours denoting
+     * high, medium and low.
+     * @return True if it was able to retrieve information, false if not.
+     */
     private boolean getHeartRateInformation(){
         Cursor HRCur = database.getHeartRate(cur.getInt(cur.getColumnIndex(MMCDatabase.KEY_USERID)));
         ImageView image = (ImageView) findViewById(R.id.image_view_heartrate);
@@ -117,7 +138,12 @@ public class MainScreen extends ActionBarActivity {
             return false;
         }
     }
-
+    /**
+     * This method gets the blood pressure information stored in the database and then checks the values
+     * On completion is changes the imageview on the main screen to be one of three colours denoting
+     * high, medium and low.
+     * @return True if it was able to retrieve information, false if not.
+     */
     private boolean getBloodPressureInformation(){
         Cursor BPCur = database.getBloodPressure(cur.getInt(cur.getColumnIndex(MMCDatabase.KEY_USERID)));
         ImageView image = (ImageView) findViewById(R.id.image_view_blood_pressure);
@@ -145,7 +171,12 @@ public class MainScreen extends ActionBarActivity {
             return false;
         }
     }
-
+    /**
+     * This method gets the temperature information stored in the database and then checks the values
+     * On completion is changes the imageview on the main screen to be one of three colours denoting
+     * high, medium and low.
+     * @return True if it was able to retrieve information, false if not.
+     */
     private boolean getTemperatureInformation(){
         Cursor tempCur = database.getTemperature(cur.getInt(cur.getColumnIndex(MMCDatabase.KEY_USERID)));
         ImageView image = (ImageView) findViewById(R.id.image_view_temperature);
@@ -173,12 +204,21 @@ public class MainScreen extends ActionBarActivity {
         }
     }
 
+    /**
+     * This method sends a text message to the GP telephone stored in the database
+     * @param typeOfRisk A string value stating the type of risk the user is under
+     */
     private void sendText(String typeOfRisk){
         String message = cur.getString(cur.getColumnIndex(MMCDatabase.KEY_FIRSTNAME)) + " has an abnormal " + typeOfRisk;
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(String.valueOf(cur.getLong(cur.getColumnIndex(MMCDatabase.KEY_GPTELEPHONE))), null, message, null, null);
     }
 
+    /**
+     * A method called by all three buttons on this screen which uses a switch statement to decide
+     * between which screen to load.
+     * @param v An object reference to the view which called it
+     */
     public void gotoNextScreen(View v){
         Intent intent;
         int id = v.getId();
