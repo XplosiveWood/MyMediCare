@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.edgehill.mad.mymedicare" >
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name=".ApplicationController"
         android:allowBackup="true"
@@ -52,6 +55,22 @@
         <activity
             android:name=".AppSettings"
             android:label="@string/title_activity_app_settings"
+            android:parentActivityName=".MainScreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.edgehill.mad.mymedicare.MainScreen" />
+        </activity>
+        <activity
+            android:name=".BloodPressure"
+            android:label="@string/title_activity_blood_pressure"
+            android:parentActivityName=".MainScreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.edgehill.mad.mymedicare.MainScreen" />
+        </activity>
+        <activity
+            android:name=".Temperature"
+            android:label="@string/title_activity_temperature"
             android:parentActivityName=".MainScreen" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -43,6 +43,7 @@ public class MMCDatabase{
     public static final String TABLE_SLEEP = "sleep";
     public static final String TABLE_BLOODPRESSURE = "bloodpressure";
     public static final String TABLE_TEMPERATURE = "temperature";
+    public static final String SELECT_ALL = "*";
     private static final String TAG = "MMCDatabse";
     private static final String DATABASE_NAME = "mmcdatabase";
     private static final int DATABASE_VERSION = 1;
@@ -67,10 +68,11 @@ public class MMCDatabase{
         // CREATE TABLE exercise (exerdate date NOT NULL, exertime time NOT NULL, exercisedone varchar, userid int, FOREIGN KEY(userid) REFERENCES personaldetails(userid))
         // CREATE TABLE sleep (sleepdate date NOT NULL, timesleep time NOT NULL, timeawake time NOT NULL, userid int, FOREIGN KEY(userid) REFERENCES personaldetails(userid))
         // CREATE TABLE bloodpressure (lowpressure int NOT NULL, highpressure int NOT NULL, pressuredate long NOT NULL, userid int, FOREIGN KEY(userid) REFERENCES personaldetails(userid))
-        // CREATE TABLE temperature (temperature long NOT NULL, tempdate long NOT NULL, userid int, FOREIGN KEY(userid) REFERENCES personaldetails(userid))
+        // CREATE TABLE temperature (temperature float(2) NOT NULL, tempdate long NOT NULL, userid int, FOREIGN KEY(userid) REFERENCES personaldetails(userid))
         @Override
         public void onCreate(SQLiteDatabase db) {
             try{
+                db.execSQL( "PRAGMA foreign_keys=ON;" );
                 db.execSQL("CREATE TABLE "+TABLE_PERSONALDETAILS+" ("+KEY_USERID+
                         " INTEGER NOT NULL PRIMARY KEY, "+KEY_FIRSTNAME +" varchar NOT NULL, "
                         +KEY_LASTNAME +" varchar NOT NULL, "+KEY_DOB +" long NOT NULL, "+KEY_HEIGHT+
@@ -100,7 +102,7 @@ public class MMCDatabase{
                         "FOREIGN KEY("+KEY_USERID+") REFERENCES "+TABLE_PERSONALDETAILS+"("
                         +KEY_USERID+"))");
 
-                db.execSQL("CREATE TABLE "+TABLE_TEMPERATURE+" ("+KEY_TEMPERATURE+" long NOT NULL, "
+                db.execSQL("CREATE TABLE "+TABLE_TEMPERATURE+" ("+KEY_TEMPERATURE+" float(2) NOT NULL, "
                         +KEY_TEMPDATE+" long NOT NULL, "+KEY_USERID+" int, " +
                         "FOREIGN KEY("+KEY_USERID+") REFERENCES "+TABLE_PERSONALDETAILS+"("
                         +KEY_USERID+"))");
@@ -112,6 +114,11 @@ public class MMCDatabase{
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        }
+
+        @Override
+        public void onOpen(SQLiteDatabase db) {
+            db.execSQL( "PRAGMA foreign_keys=ON;" );
         }
     }
 
@@ -135,6 +142,18 @@ public class MMCDatabase{
         personValues.put(KEY_GPTELEPHONE, gptelephone);
         personValues.put(KEY_PASSWORD, password);
         return db.insert(TABLE_PERSONALDETAILS, null, personValues);
+    }
+
+    public long updatePerson(String name, String lastname, long dob, float height, String gpname, long gptelephone, String password, Cursor cur){
+        ContentValues personValues = new ContentValues();
+        personValues.put(KEY_FIRSTNAME, name);
+        personValues.put(KEY_LASTNAME, lastname);
+        personValues.put(KEY_DOB, dob);
+        personValues.put(KEY_HEIGHT, height);
+        personValues.put(KEY_GPNAME, gpname);
+        personValues.put(KEY_GPTELEPHONE, gptelephone);
+        personValues.put(KEY_PASSWORD, password);
+        return db.update(TABLE_PERSONALDETAILS, personValues, "userid = " + cur.getInt(cur.getColumnIndex(MMCDatabase.KEY_USERID)), null);
     }
 
     public long insertHeartRate(long date, int time, int HRMeasurement, int userid){
@@ -183,7 +202,7 @@ public class MMCDatabase{
         return db.insert(TABLE_BLOODPRESSURE, null, bloodpressureValues);
     }
 
-    public long insertTemperature(long temperature, long tempdate, int userid){
+    public long insertTemperature(float temperature, long tempdate, int userid){
         ContentValues temperatureValues = new ContentValues();
         temperatureValues.put(KEY_TEMPERATURE, temperature);
         temperatureValues.put(KEY_TEMPDATE, tempdate);
@@ -205,5 +224,31 @@ public class MMCDatabase{
     public Cursor checkPassword(String name, String surname, String pass){
         Cursor cur = db.query(TABLE_PERSONALDETAILS, new String[] {KEY_USERID},KEY_FIRSTNAME + " like '" + name + "' AND " +KEY_LASTNAME+ " like '" +surname+"' AND " +KEY_PASSWORD+" like '"+pass+"'", null, null, null, null);
         return cur;
+    }
+
+    public Cursor getPersonalDetails(String name, String surname, String pass){
+        Cursor cur = db.query(TABLE_PERSONALDETAILS, new String[] {SELECT_ALL},KEY_FIRSTNAME + " like '" + name + "' AND " +KEY_LASTNAME+ " like '" +surname+"' AND " +KEY_PASSWORD+" like '"+pass+"'", null, null, null, null);
+        return cur;
+    }
+
+    public Cursor getHeartRate(int userId){
+        Cursor cur = db.query(TABLE_HEARTRATE, new String[] {SELECT_ALL},KEY_USERID + " = " + userId, null, null, null, KEY_HRDATE + " DESC");
+        return cur;
+    }
+
+    public Cursor getBloodPressure(int userId){
+        Cursor cur = db.query(TABLE_BLOODPRESSURE, new String[] {SELECT_ALL},KEY_USERID + " = " + userId, null, null, null, KEY_PRESSUREDATE + " DESC");
+        return cur;
+    }
+
+    public Cursor getTemperature(int userId){
+        Cursor cur = db.query(TABLE_TEMPERATURE, new String[] {SELECT_ALL},KEY_USERID + " = " + userId, null, null, null, KEY_TEMPDATE + " DESC");
+        return cur;
+    }
+
+    public boolean deleteUser(Cursor cur){
+
+        db.delete(TABLE_PERSONALDETAILS, "userid = " + cur.getInt(cur.getColumnIndex(MMCDatabase.KEY_USERID)), null);
+        return true;
     }
 }

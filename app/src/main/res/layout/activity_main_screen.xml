@@ -75,6 +75,7 @@
                 android:textColor="@color/primary_text"
                 android:text="Heart Rate" />
             <Button
+                android:id="@+id/button_heart_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_view_heartrate"
@@ -119,6 +120,7 @@
                     android:textColor="@color/primary_text"
                     android:text="Blood Pressure" />
                 <Button
+                    android:id="@+id/button_blood_pressure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_view_blood_pressure"
@@ -162,6 +164,7 @@
                     android:textColor="@color/primary_text"
                     android:text="Temperature" />
                 <Button
+                    android:id="@+id/button_temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_view_temperature"

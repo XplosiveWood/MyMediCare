@@ -26,5 +26,9 @@
     <string name="main_screen_healthy">Normal Range</string>
     <string name="main_screen_measures">Take measures</string>
     <string name="main_screen_emergency">Emergency</string>
+    <string name="title_activity_blood_pressure">BloodPressure</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_temperature">Temperature</string>
 
 </resources>

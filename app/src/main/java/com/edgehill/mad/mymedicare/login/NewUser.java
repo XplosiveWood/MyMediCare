@@ -2,6 +2,9 @@ package com.edgehill.mad.mymedicare.login;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
+import android.provider.Contacts;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.edgehill.mad.mymedicare.ApplicationController;
+import com.edgehill.mad.mymedicare.Format;
 import com.edgehill.mad.mymedicare.MMCDatabase;
 import com.edgehill.mad.mymedicare.MainScreen;
 import com.edgehill.mad.mymedicare.R;
@@ -44,11 +48,11 @@ public class NewUser extends ActionBarActivity {
                     if (checkDBIfUserExists(name, surname)) {
                     } else {
                         if (addUserToDatabase(name, surname, dateOfBirth, height, gpName, gpTelephone, pass)) {
-                            getCursorForCurrentUser(name,surname, pass);
-                            MainScreen screen = new MainScreen();
+                            getCursorForCurrentUser(name, surname, pass);
                             Intent intent = new Intent(NewUser.this, MainScreen.class);
                             intent.putExtra("firstTimeUser", true);
                             startActivity(intent);
+                            insertGPContact();
                             finish();
                         } else {
                             showErrorSnackbar("User could not be added to database.");
@@ -116,7 +120,7 @@ public class NewUser extends ActionBarActivity {
     }
 
     public void getCursorForCurrentUser(String name, String lastname, String pass){
-        Cursor returnedCursor = database.checkPassword(name, lastname, pass);
+        Cursor returnedCursor = database.getPersonalDetails(name, lastname, pass);
         returnedCursor.moveToFirst();
         ApplicationController ac = (ApplicationController)getApplicationContext();
         ac.setSharedCursor(returnedCursor);
@@ -131,24 +135,6 @@ public class NewUser extends ActionBarActivity {
                 , this);
     }
 
-    public String formatDate(int day, int month, int year) {
-        String strMonth, strDay, strYear;
-        if (month < 10) {
-            strMonth = Integer.toString(month);
-            strMonth = "0" + strMonth;
-        } else {
-            strMonth = Integer.toString(month);
-        }
-        if (day < 10) {
-            strDay = Integer.toString(day);
-            strDay = "0" + strDay;
-        } else {
-            strDay = Integer.toString(day);
-        }
-        strYear = Integer.toString(year);
-
-        return strYear + "" + strMonth + "" + strDay;
-    }
 
     public boolean checkUserEntry() {
         EditText editName = (EditText) findViewById(R.id.edit_text_name);
@@ -162,7 +148,7 @@ public class NewUser extends ActionBarActivity {
         int day = dob.getDayOfMonth();
         int month = dob.getMonth();
         int year = dob.getYear();
-        String date = formatDate(day, month, year);
+        String date = Format.date(day, month, year);
         dateOfBirth = Long.parseLong(date);
         name = editName.getText().toString();
         surname = editSurname.getText().toString();
@@ -201,5 +187,13 @@ public class NewUser extends ActionBarActivity {
             return false;
         }
         return true;
+    }
+
+    private void insertGPContact(){
+        Intent contactIntent = new Intent(Intent.ACTION_INSERT);
+        contactIntent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        contactIntent.putExtra(ContactsContract.Intents.Insert.NAME, gpName);
+        contactIntent.putExtra(ContactsContract.Intents.Insert.PHONE, "0" + String.valueOf(gpTelephone));
+        startActivity(contactIntent);
     }
 }

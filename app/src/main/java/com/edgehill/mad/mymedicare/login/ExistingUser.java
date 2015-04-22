@@ -35,6 +35,7 @@ public class ExistingUser extends ActionBarActivity {
                 if(checkUserInput()){
                     if (checkDBIfUserExists(name, surname)) {
                         if (checkDBPassword(name, surname, pass)) {
+                            getCursorForCurrentUser(name, surname, pass);
                             Intent intent = new Intent(ExistingUser.this, MainScreen.class);
                             intent.putExtra("firstTimeUser", false);
                             startActivity(intent);
@@ -124,5 +125,12 @@ public class ExistingUser extends ActionBarActivity {
             return false;
         }
         return true;
+    }
+
+    public void getCursorForCurrentUser(String name, String lastname, String pass){
+        Cursor returnedCursor = database.getPersonalDetails(name, lastname, pass);
+        returnedCursor.moveToFirst();
+        ApplicationController ac = (ApplicationController)getApplicationContext();
+        ac.setSharedCursor(returnedCursor);
     }
 }
