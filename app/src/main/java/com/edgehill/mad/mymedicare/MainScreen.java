@@ -67,6 +67,14 @@ public class MainScreen extends ActionBarActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getBloodPressureInformation();
+        getHeartRateInformation();
+        getTemperatureInformation();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -81,12 +89,6 @@ public class MainScreen extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onStop() {
-        finish();
-        super.onStop();
     }
 
     private boolean getHeartRateInformation(){
@@ -178,17 +180,25 @@ public class MainScreen extends ActionBarActivity {
     }
 
     public void gotoNextScreen(View v){
-        switch(v.getId()){
+        Intent intent;
+        int id = v.getId();
+        switch(id){
             case R.id.button_blood_pressure :{
-                Intent intent = new Intent(MainScreen.this, BloodPressure.class);
+                intent = new Intent(MainScreen.this, BloodPressure.class);
+                startActivity(intent);
+                break;
             }
 
             case R.id.button_heart_rate :{
-                Intent intent = new Intent(MainScreen.this, HeartRate.class);
+                intent = new Intent(MainScreen.this, HeartRate.class);
+                startActivity(intent);
+                break;
             }
 
             case R.id.button_temperature :{
-                Intent intent = new Intent(MainScreen.this, Temperature.class);
+                intent = new Intent(MainScreen.this, Temperature.class);
+                startActivity(intent);
+                break;
             }
         }
     }

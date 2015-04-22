@@ -63,7 +63,7 @@ public class MMCDatabase{
             super(context, DATABASE_NAME,  null, DATABASE_VERSION);
         }
         // CREATE TABLE personaldetails  (userid INTEGER NOT NULL PRIMARY KEY, firstname varchar NOT NULL, lastname varchar NOT NULL, dob date NOT NULL, height float(2) NOT NULL, gpname varchar NOT NULL, gptelephone long NOT NULL, password varchar NOT NULL)
-        // CREATE TABLE heartrate (hrdate date NOT NULL, hrtime time NOT NULL, measurement int NOT NULL, userid int, FOREIGN KEY(userid) REFERENCES personaldetails(userid))
+        // CREATE TABLE heartrate (hrdate date NOT NULL, hrtime long NOT NULL, measurement int NOT NULL, userid int, FOREIGN KEY(userid) REFERENCES personaldetails(userid))
         // CREATE TABLE weighttable (weightdate date NOT NULL, weighttime time NOT NULL, weight float(2) NOT NULL, userid int, FOREIGN KEY(userid) REFERENCES personaldetails(userid))
         // CREATE TABLE exercise (exerdate date NOT NULL, exertime time NOT NULL, exercisedone varchar, userid int, FOREIGN KEY(userid) REFERENCES personaldetails(userid))
         // CREATE TABLE sleep (sleepdate date NOT NULL, timesleep time NOT NULL, timeawake time NOT NULL, userid int, FOREIGN KEY(userid) REFERENCES personaldetails(userid))
@@ -79,7 +79,7 @@ public class MMCDatabase{
                         " float(2) NOT NULL, "+KEY_GPNAME+" varchar NOT NULL, "+KEY_GPTELEPHONE+" long NOT NULL, "
                         +KEY_PASSWORD+" varchar NOT NULL)");
                 db.execSQL("CREATE TABLE "+TABLE_HEARTRATE+" ("+KEY_HRDATE+" long NOT NULL, "
-                        +KEY_HRTIME+" time NOT NULL, "+KEY_HRMEASUREMENT+" int NOT NULL, "+KEY_USERID+
+                        +KEY_HRTIME+" long NOT NULL, "+KEY_HRMEASUREMENT+" int NOT NULL, "+KEY_USERID+
                         " int, FOREIGN KEY("+KEY_USERID+") REFERENCES "+TABLE_PERSONALDETAILS+"("
                         +KEY_USERID+"))");
                 db.execSQL("CREATE TABLE "+TABLE_WEIGHT+" ("+KEY_WEIGHTDATE+" long NOT NULL, "
@@ -156,7 +156,7 @@ public class MMCDatabase{
         return db.update(TABLE_PERSONALDETAILS, personValues, "userid = " + cur.getInt(cur.getColumnIndex(MMCDatabase.KEY_USERID)), null);
     }
 
-    public long insertHeartRate(long date, int time, int HRMeasurement, int userid){
+    public long insertHeartRate(long date, long time, int HRMeasurement, int userid){
         ContentValues heartRateValues = new ContentValues();
         heartRateValues.put(KEY_HRDATE, date);
         heartRateValues.put(KEY_HRTIME, time);
@@ -197,7 +197,7 @@ public class MMCDatabase{
         ContentValues bloodpressureValues = new ContentValues();
         bloodpressureValues.put(KEY_LOWPRESSURE, lowpressure);
         bloodpressureValues.put(KEY_HIGHPRESSURE, highpressure);
-        bloodpressureValues.put(KEY_TEMPDATE, pressuredate);
+        bloodpressureValues.put(KEY_PRESSUREDATE, pressuredate);
         bloodpressureValues.put(KEY_USERID, userid);
         return db.insert(TABLE_BLOODPRESSURE, null, bloodpressureValues);
     }
@@ -207,7 +207,7 @@ public class MMCDatabase{
         temperatureValues.put(KEY_TEMPERATURE, temperature);
         temperatureValues.put(KEY_TEMPDATE, tempdate);
         temperatureValues.put(KEY_USERID, userid);
-        return db.insert(TABLE_BLOODPRESSURE, null, temperatureValues);
+        return db.insert(TABLE_TEMPERATURE, null, temperatureValues);
     }
 
     public Boolean checkIfUserExists(String name, String surname){
